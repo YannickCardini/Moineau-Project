@@ -8,7 +8,7 @@
 
 ## Installation
 
-* git clone
+* git clone `https://github.com/YannickCardini/Moineau-Project.git`
 * execute: `bdd/setup.sql ` in mysql command line:`mysql> source bdd/setup.sql;`
 * execute: ` npm install`
 * run the app with `node bin/www`
