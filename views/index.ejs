@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <%- include('partials/header') -%>
+  </head>
+  <body>
+    <%- include('partials/nav') -%>
+    <main role="main" class="container">
+      <div class="row">
+        <div class="col-12">
+          <h2 class="mt-3">Telecharge et modifie tes fichiers XML</h2>
+        	<form action="/view" method="POST" enctype="multipart/form-data" class="mt-1">
+      		  <div class="form-group">
+      		    <label for="exampleFormControlFile1"><u>Telechargez vos fichier XML:</u></label>
+      		    <input type="file" class="form-control-file" name="FileXML" id="FileXML" accept=".xml,.XML">
+      		  </div>
+      		  <input type="submit" class="btn btn-success" value="Envoyez" />
+      		</form>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-4">
+          <h2 class="mt-3">Vos documents:</h2>
+          <div class="input-group mt-3">
+            <input type="text" class="form-control" id="search-data" placeholder="Search" aria-label="Search" aria-describedby="button-addon2">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="button" id="button-addon2">Go</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <table class="table mt-1" id="table-data">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Nom</th>
+              <th scope="col">Cree</th>
+              <th scope="col">Derniere modification</th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% for(var row of data) { %>
+            <tr>
+              <td scope="row"><%- row.id %></td>
+              <td><%- row.name %></td>
+              <td><%- moment(row.created).format("YYYY-MM-DD") %></td>
+              <td><%- moment(row.last_update).format("YYYY-MM-DD") %></td>
+              <td><a href="/export?id=<%- row.id %>" class="btn btn-info btn-sm">Exportez</a></td>
+              <td><a href="/view?id=<%- row.id %>" class="btn btn-warning btn-sm">Voir/Modifier</a></td>
+              <td><a href="/delete?id=<%- row.id %>" class="btn btn-danger btn-sm">Supprimer</a></td>
+            </tr>
+            <% } %>
+          </tbody>
+        </table>
+        </div>
+      </div>
+
+
+    </main><!-- /.container -->
+    <%- include('partials/footer') -%>
+<script type="text/javascript">
+    $("#search-data").keyup(function() {
+      var tmp=0;
+      $("#table-data tr").show();
+      if ($("#search-data").val()!="") {
+        tmp=0;
+        $("#table-data tr").each(function() {
+          if (tmp!=0) { //skip first tr
+            if (!$(this).is(':contains("'+$("#search-data").val()+'")')) {
+              $(this).hide();
+            }
+          } else 
+            tmp++;
+        })
+      }
+    })
+</script>
+  </body>
+</html>
+
